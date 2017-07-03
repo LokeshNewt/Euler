@@ -1,0 +1,6 @@
+-- insert into Employee values (1, 'geeta', 'krishnan', 'pd', 1, FALSE , '2016-10-09 05:27:34.889', '2016-10-09 05:27:34.889');
+-- insert into message values (1, 'edifecs');
+--
+-- insert into Employee values (2, 'slava', 'cucer', 'pd', 1, TRUE , '2016-10-09 14:27:34.889', '2016-10-09 05:27:34.889');
+-- insert into message values (2, 'rgp');
+--insert into message values (2);  // to produce error

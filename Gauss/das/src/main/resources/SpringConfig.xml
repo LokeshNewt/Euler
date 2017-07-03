@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/data/jpa
+    http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd
+    http://www.springframework.org/schema/data/mongo
+    http://www.springframework.org/schema/data/mongo/spring-mongo-1.8.xsd">
+
+    <!-- mongodb -->
+
+    <mongo:mongo host="localhost" port="27017" id="mongo"/>
+    <mongo:db-factory dbname="user" mongo-ref="mongo" id="mongoDbFactory"/>
+
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+    </bean>
+    
+    <!--sql server-->
+
+    <jpa:repositories base-package="sql" />
+
+    <bean id="dataSourceBean" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"></property>
+        <property name="url" value="jdbc:sqlserver://localhost;user=sa;password=Edifecs2014;database=Company"></property>
+        <property name="username" value="sa"></property>
+        <property name="password" value="Edifecs2014"></property>
+    </bean>
+
+    <bean id="hbAdapterBean" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="showSql" value="true"></property>
+        <property name="generateDdl" value="true"></property>
+    </bean>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSourceBean" />
+        <property name="jpaVendorAdapter" ref="hbAdapterBean" />
+        <property name="packagesToScan" value="sql"/> <!-- spring based scanning for entity classes-->
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" />
+
+</beans>

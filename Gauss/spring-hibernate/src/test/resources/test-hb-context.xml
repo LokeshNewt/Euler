@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <util:properties id="dbProperties" location="classpath:test-database.properties" />
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="#{dbProperties.DB_DRIVER}" />
+        <property name="jdbcUrl" value="#{dbProperties.DB_URL}" />
+        <property name="user" value="#{dbProperties.DB_USERNAME}" />
+        <property name="password" value="#{dbProperties.DB_PASSWORD}" />
+    </bean>
+
+    <bean id="inheritedHibernateSessionFactory" abstract="true" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">#{dbProperties.DB_DIALECT}</prop>
+                <prop key="hibernate.show_sql">#{dbProperties.DB_SHOW_SQL}</prop>
+                <prop key="hibernate.format_sql">#{dbProperties.DB_FORMAT_SQL}</prop>
+            </props>
+        </property>
+    </bean>
+
+    <import resource="common-context.xml" />
+
+</beans>

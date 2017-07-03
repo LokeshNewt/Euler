@@ -1,0 +1,32 @@
+create database world;
+
+Country
+CountryId, NationId, Name, Capital, CreatedDate , Language, Currency, isDeveloped, Population, CallingCode
+
+ManyToMany
+Languages
+
+ManyToMany
+Country_Religion
+
+Religion
+ReligionId, God, HolyBook, CreatedDate, Name, WorshipPlace, SuperReligion, Type, Followers
+
+ManyToOne
+Planet
+PlanetId, Name, NumberOfMoons, OrbitPeriod, Galaxy, CountryCount, CreatedDate, Inhabitant
+
+OneToMany
+CurrentAffairs
+CurrentAffairsId, CountryId, Description, Place, Type, CreatedDate
+
+OneToOne
+NationId, King, Prime Minister, President, RulingParty, IndependenceDay, IndependenceFromNation, Majority, CreatedDate, NationalGame, TimeZone, GDP
+
+Write a program to read csv files to ingest data
+
+Nation.csv
+B01,C01,,Evo Morales,,,,,,,
+
+Country.csv
+C01, Bolivia, Sucre,, Spanish, Bolivian boliviano, N,
