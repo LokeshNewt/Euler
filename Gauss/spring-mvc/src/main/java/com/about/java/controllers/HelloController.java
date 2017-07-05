@@ -53,11 +53,11 @@ public class HelloController {
 
     @RequestMapping(value = "/saveUser", method = RequestMethod.POST)
     public ModelAndView saveUser(HttpServletRequest request) {
-        User user1 = new User();
-        user1.setEmailId(request.getParameter("email"));
-        user1.setPassword(request.getParameter("psw"));
-        User u = userRepositary.save(user1);
-        return new ModelAndView("index/signup", "command", new User());
+        User user = new User();
+        user.setEmailId(request.getParameter("email"));
+        user.setPassword(request.getParameter("psw"));
+        userRepositary.save(user);
+        return new ModelAndView("index/login", "command", new User());
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)

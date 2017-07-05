@@ -1,13 +1,11 @@
 package store.aspect;
 
-import exception.InvalidArgException;
+import shared.exception.InvalidArgException;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
-import params.QueryParams;
+import api.params.QueryParams;
 import shared.CheckParams;
 import shared.Param;
 import shared.constants.Constants;

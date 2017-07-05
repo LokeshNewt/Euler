@@ -11,7 +11,7 @@
 <a href="empform">Add Employee</a>
 <a href="viewemp">View Employees</a>
 <a href="signup">Sign up</a>
-<a href="/../login">Log In</a>
+<a href="login">Log In</a>
 <h3>${msg}</h3>
 </body>
 </html>

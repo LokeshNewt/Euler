@@ -1,22 +1,15 @@
-import exception.DBException;
-import hibernate.namedQuery.EmployeeNQ;
+import shared.exception.DBException;
+import store.namedQuery.EmployeeNQ;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import params.EmployeeParams;
-import params.QueryParams;
-import store.ManageEmployee;
+import api.params.CountryParams;
+import api.params.QueryParams;
+import store.ManageCountry;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -39,7 +32,7 @@ public class TestHibernate {
     private SessionFactory sessionFactory;
 
     @Autowired
-    private ManageEmployee manageEmployee;
+    private ManageCountry manageEmployee;
 
     @Test
     public void test() {}
@@ -75,10 +68,10 @@ public class TestHibernate {
         Calendar calendar = Calendar.getInstance();
         Date date = calendar.getTime();
 
-        EmployeeParams employeeParams = EmployeeParams.build().setDept(dept).setFirstName(firstName)
+        CountryParams countryParams = CountryParams.build().setDept(dept).setFirstName(firstName)
                 .setLastName(lastName).setFlag(exclusionFlag).setMessageSid(-1l).setCreatedDTTM(date);
 
-        manageEmployee.addEmployee(session, employeeParams);
+        manageEmployee.addCountry(session, countryParams);
 
     }
 
@@ -93,7 +86,7 @@ public class TestHibernate {
     public void deleteTestEmployees() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        Query query = session.getNamedQuery(EmployeeNQ.DELETE_EMPLOYEES);
+        Query query = session.getNamedQuery(EmployeeNQ.DELETE_EMPLOYEES2);
         query.setString(EmployeeNQ.Params.LAST_NAME, "ungur");
         int rows = query.executeUpdate();
         assertEquals("invalid row size deleted", 2, rows);

@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Created by neerbans on 3/8/2017.
  */
 @Entity
-@Table(name = "xUser")
+@Table(name = "user5")
 public class User {
 
     public User() {
@@ -15,7 +15,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "userId")
+    @Column(name = "user_id")
     private int userId;
 
     @Column(name = "username")

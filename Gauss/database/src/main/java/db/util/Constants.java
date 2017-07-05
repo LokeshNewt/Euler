@@ -22,4 +22,5 @@ public class Constants {
     public static final String TB01 = "tb01";
     public static final String RE01 = "re01";
     public static final String FL01 = "fl01";
+    public static final String PD01 = "pd01";
 }

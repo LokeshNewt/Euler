@@ -1,16 +1,20 @@
 package db;
 
 
+import db.result.DBResult;
+import db.result.IResult;
+import db.store.IExecute;
+import db.store.ExecuteImpl;
 import db.util.Code;
 import db.util.Constants;
 import db.util.DB;
 import org.apache.log4j.Logger;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -66,54 +70,24 @@ public class DBInfo {
     }
 
     private void execute(Statement sta, String code, String dbType) throws SQLException {
-        DBResult dbResult = new DBResult();
+        IResult dbResult = new DBResult();
+        IExecute exe = new ExecuteImpl(dbResult);
         switch (code) {
             case Constants.DB01:
             case Constants.TB01:
-                dbResult.getDBTableInfo(sta, code, dbType);
+                exe.getDBTableInfo(sta, code, dbType);
                 break;
             case Constants.RE01:
-                dbResult.getAllRecords(sta, props.getProperty(Constants.TABLE_NAME));
-                dbResult.getAllRecords(sta, props.getProperty(Constants.TABLE_NAME));
+                exe.getAllRecords(sta, props.getProperty(Constants.TABLE_NAME));
                 break;
             case Constants.FL01:
-                executeFile(sta);
+                exe.executeFile(props, sta);
+                break;
+            case Constants.PD01:
+                exe.executePDProcedureFile(props, sta);
                 break;
             default:
-                throw new RuntimeException("wrong code " + code);
-        }
-    }
-
-    private void executeFile(Statement sta) throws SQLException {
-        try {
-            DBResult dbResult = new DBResult();
-            Boolean b = Boolean.parseBoolean(props.getProperty("see_result_set"));
-
-            InputStream inputStream = ClassLoader.getSystemResourceAsStream("script/scripts.sql");
-            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder sb = new StringBuilder();
-            String s;
-            while ((s = br.readLine()) != null) {
-                sb.append(s);
-                sb.append(" ");
-            }
-            br.close();
-            String stats[] = sb.toString().split(";");
-            for (String stat : stats) {
-                if (stat.trim().length() > 0) {
-                    logger.info("Executing statement : " + stat);
-//                    System.out.println(stat);
-                    if (b) {
-                        ResultSet rs = sta.executeQuery(stat);
-                        dbResult.showResultSet(rs);
-                    }
-                    else {
-                        sta.execute(stat);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+                throw new RuntimeException("Please create impl for " + code + " code or chose some different code");
         }
     }
 

@@ -15,7 +15,7 @@ public class ArrangeFile {
 
     }
 
-    void arrangeFile(String path) throws IOException {
+    private void arrangeFile(String path) throws IOException {
 
         System.out.println(path);
         String line;
@@ -33,8 +33,8 @@ public class ArrangeFile {
         writer.close();
 
         PrintWriter writer2= new PrintWriter(path);
-        for (int i=0; i<z.size(); i++) {
-            writer2.write(z.get(i));
+        for (String aZ : z) {
+            writer2.write(aZ);
             writer2.write("\r\n");
         }
         writer2.close();

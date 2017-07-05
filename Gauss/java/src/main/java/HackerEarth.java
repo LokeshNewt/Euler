@@ -104,7 +104,7 @@ public class HackerEarth {
         Integer value2 = 10;
 
         Optional<Integer> a = Optional.ofNullable(value1); // allows passed parameter to be null
-        Optional<Integer> b = Optional.of(value2); // throws exception if passed parameter is null
+        Optional<Integer> b = Optional.of(value2); // throws shared.exception if passed parameter is null
         System.out.println(a.isPresent() + " - " + b.isPresent());
         System.out.println(a.orElse(5)); // returns value if present otherwise returns default value
         System.out.println(b.get()); // gets the value, value should be present

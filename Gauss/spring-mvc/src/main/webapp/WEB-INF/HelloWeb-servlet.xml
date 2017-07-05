@@ -39,14 +39,19 @@
 
     <bean id="hbAdapterBean" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
         <property name="showSql" value="true" />
-        <property name="generateDdl" value="true" />
+        <!--<property name="generateDdl" value="true" />-->
     </bean>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSourceBean" />
         <property name="jpaVendorAdapter" ref="hbAdapterBean" />
+        <!--spring based scanning for entity classes-->
         <property name="packagesToScan" value="com.about.java.emp"/>
-     <!--spring based scanning for entity classes-->
+        <!--<property name="jpaProperties">-->
+            <!--<props>-->
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>-->
+            <!--</props>-->
+        <!--</property>-->
     </bean>
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
