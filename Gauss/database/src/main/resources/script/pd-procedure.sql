@@ -139,3 +139,15 @@ select xcs.VersionText, xcs.CodeSystemOID, xcs.CodeSystemID, xcs.Name as CodeSys
 from xCodeSystem xcs
 inner join xDictionary xd on xcs.xCodeSystemSID = xd.xCodeSystemSID where xd.CodeValue = @dictonaryCode
 End;
+
+create procedure getCodesByConcept (
+@cname varchar(25),
+@gname varchar(25)
+)
+AS
+Begin
+select * from xDictionary where xDictionarySid in (select xDictionarySid from xDictionaryConceptMap
+where xDictionaryConceptSID = (select xDictionaryConceptSID from xDictionaryConcept
+where name = @cname and xDictionaryConceptGroupSID = (select xDictionaryConceptGroupSID from
+xDictionaryConceptGroup where Name = @gname)))
+End;

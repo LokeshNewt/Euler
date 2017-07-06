@@ -1,5 +1,6 @@
 import com.google.gson.*;
 import api.dto.CountryDTO;
+import org.hibernate.stat.Statistics;
 import shared.exception.DBException;
 import shared.exception.InvalidArgException;
 import shared.entity.BaseEntity;
@@ -21,6 +22,7 @@ import api.params.QueryParams;
 import store.CountryStore;
 import store.IManageCountry;
 import shared.entity.Country;
+import sun.java2d.SurfaceDataProxy;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -47,8 +49,19 @@ public class TestCountry {
     private SessionFactory sessionFactory;
 
     @Test
+    public void sample() {
+
+    }
+
+//    @Test
     public void test() throws InvalidArgException, DBException {
 //        testCountry();
+    }
+
+    private void loadSession() {
+        Session session = sessionFactory.openSession();
+        Country country = session.load(Country.class, "AUS01");
+        System.out.println("name = " + country.getName());
     }
 
     public void testCountry() throws DBException {
@@ -57,9 +70,9 @@ public class TestCountry {
         Country country = countryStore.getCountryById(session, "AUS01");
         result(country);
         session.close();
-
-        TestUnitCoverage.coverage();
+//        sessionFactory.close();
     }
+
 
 //    @Test
     public void testAnnotation() {

@@ -4,7 +4,7 @@ import shared.entity.Country;
 import shared.entity.Religion;
 import shared.exception.DBException;
 import shared.entity.Person;
-import store.namedQuery.EmployeeNQ;
+import store.namedQuery.CountryNQ;
 import org.apache.log4j.Logger;
 import api.params.CountryParams;
 import api.params.QueryParams;
@@ -43,7 +43,7 @@ public class ManageCountry implements IManageCountry {
         logger.info("Fetching list of all employees whose created date > " + queryParams.getDate());
         List employees = null;
         try{
-            Query query = session.getNamedQuery(EmployeeNQ.DELETE_EMPLOYEES2);
+            Query query = session.getNamedQuery(CountryNQ.GET_COUNTRY);
             setQueryParams(query, queryParams);
             query.setFirstResult(startIndex);
             query.setMaxResults(limitCount);
@@ -122,6 +122,6 @@ public class ManageCountry implements IManageCountry {
     }
 
     private void setQueryParams(Query query, QueryParams queryParams) {
-        query.setTimestamp(EmployeeNQ.Params.CREATED_DATE, queryParams.getDate());
+        query.setTimestamp(CountryNQ.Params.CREATED_DATE, queryParams.getDate());
     }
 }

@@ -1,5 +1,5 @@
 import shared.exception.DBException;
-import store.namedQuery.EmployeeNQ;
+import store.namedQuery.CountryNQ;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -86,8 +86,8 @@ public class TestHibernate {
     public void deleteTestEmployees() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        Query query = session.getNamedQuery(EmployeeNQ.DELETE_EMPLOYEES2);
-        query.setString(EmployeeNQ.Params.LAST_NAME, "ungur");
+        Query query = session.getNamedQuery(CountryNQ.GET_COUNTRY);
+        query.setString(CountryNQ.Params.LAST_NAME, "ungur");
         int rows = query.executeUpdate();
         assertEquals("invalid row size deleted", 2, rows);
         transaction.commit();

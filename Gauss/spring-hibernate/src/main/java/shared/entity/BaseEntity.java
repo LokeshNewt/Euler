@@ -12,7 +12,7 @@ import java.util.Date;
 public class BaseEntity implements Serializable {
 
     @Column(name = "createdDate")
-    Date createdDate;
+    private Date createdDate;
 
     public Date getCreatedDate() {
         return createdDate;

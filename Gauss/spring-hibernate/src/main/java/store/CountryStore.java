@@ -1,7 +1,7 @@
 package store;
 
 import shared.exception.DBException;
-import store.namedQuery.EmployeeNQ;
+import store.namedQuery.CountryNQ;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -18,12 +18,15 @@ public class CountryStore {
     public Country getCountryById(Session session, String Id) throws DBException {
         List<Country> countries = null;
         try{
-            Query query = session.getNamedQuery(EmployeeNQ.DELETE_EMPLOYEES2);
-            query.setString(EmployeeNQ.Params.COUNTRY_ID, Id);
+            Query query = session.getNamedQuery(CountryNQ.GET_COUNTRY);
+            query.setString(CountryNQ.Params.COUNTRY_ID, Id);
             countries = (List<Country>) query.list();
+            if (countries.size() > 0) {
+                return countries.get(0);
+            }
         } catch (HibernateException e) {
             throw new DBException(" error while executing sql query", e);
         } 
-        return countries.get(0);
+        return null;
     }
 }
