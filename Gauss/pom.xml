@@ -23,6 +23,7 @@
         <module>design-pattern</module>
         <module>spring</module>
         <module>database</module>
+        <module>service-manager</module>
     </modules>
 
 

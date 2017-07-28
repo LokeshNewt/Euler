@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by neerbans on 6/13/2017.
  */
-
+// the point is this class is independent of email or text message
 @Component
 public class MyApplication {
 

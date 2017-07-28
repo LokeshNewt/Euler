@@ -20,8 +20,9 @@ import java.util.List;
 public class Country extends BaseEntity implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "CountryId")
-    private String countryId;
+    private Long countryId;
 
     @Column(name = "Name")
     private String name;
@@ -46,11 +47,11 @@ public class Country extends BaseEntity implements Serializable {
         this.religions = religions;
     }
 
-    public String getCountryId() {
+    public Long getCountryId() {
         return countryId;
     }
 
-    public void setCountryId(String countryId) {
+    public void setCountryId(Long countryId) {
         this.countryId = countryId;
     }
 

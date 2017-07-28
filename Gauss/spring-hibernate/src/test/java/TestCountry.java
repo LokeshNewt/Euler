@@ -1,10 +1,7 @@
-import com.google.gson.*;
 import api.dto.CountryDTO;
-import org.hibernate.stat.Statistics;
-import shared.exception.DBException;
-import shared.exception.InvalidArgException;
-import shared.entity.BaseEntity;
-import shared.CustomDate;
+import api.params.CountryParams;
+import api.params.QueryParams;
+import com.google.gson.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -17,12 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import api.params.CountryParams;
-import api.params.QueryParams;
+import shared.CustomDate;
+import shared.entity.BaseEntity;
+import shared.entity.Country;
+import shared.exception.DBException;
+import shared.exception.InvalidArgException;
 import store.CountryStore;
 import store.IManageCountry;
-import shared.entity.Country;
-import sun.java2d.SurfaceDataProxy;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -30,15 +28,17 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 
 /**
  * Created by neerbans on 10/6/2016.
  */
 
-//@ContextConfiguration(locations = {"classpath:hb-context.xml"})
-//@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:hb-context.xml"})
+@RunWith(SpringJUnit4ClassRunner.class)
 public class TestCountry {
 
     @Autowired
@@ -64,7 +64,7 @@ public class TestCountry {
         System.out.println("name = " + country.getName());
     }
 
-    public void testCountry() throws DBException {
+    public void getCountryById() throws DBException {
         Session session = sessionFactory.openSession();
         CountryStore countryStore = new CountryStore();
         Country country = countryStore.getCountryById(session, "AUS01");
@@ -73,6 +73,18 @@ public class TestCountry {
 //        sessionFactory.close();
     }
 
+//    @Test
+    public void createCountry() throws DBException {
+        Session session = sessionFactory.openSession();
+        CountryStore countryStore = new CountryStore();
+        Country country = new Country();
+//        country.setCountryId(2L);
+        country.setName("New Zealand");
+        country.setCapital("Wellington");
+        countryStore.createCountry(session, country);
+        session.close();
+        sessionFactory.close();
+    }
 
 //    @Test
     public void testAnnotation() {
@@ -134,22 +146,31 @@ public class TestCountry {
         result(dto);
     }
 
-    //@Test
+    @Test
     public void objectToXML() throws JAXBException, FileNotFoundException {
 
         CountryDTO dto = new CountryDTO();
         dto.setId(1l);
         dto.setName("neeraj");
         dto.setCreatedDTTM(new Date());
-        dto.setUpdatedDTTM(new CustomDate(new Date()));
+        result(dto);
+//        dto.setUpdatedDTTM(new CustomDate(new Date()));
 
-        JAXBContext jaxbContext = JAXBContext.newInstance(CountryDTO.class);
+        JSONObject jsonObject = new JSONObject("{\n" +
+                "  \"id\": 1,\n" +
+                "  \"name\": \"neeraj\",\n" +
+                "  \"createdDTTM\": \"2017-07-29\"\n" +
+                "}");
+
+        JAXBContext jaxbContext = JAXBContext.newInstance(JSONObject.class);
+//        String xml = XML.toString(jsonObject);
+//        System.out.println(xml);
 
         Marshaller j = jaxbContext.createMarshaller();
         j.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
 //        j.marshal(api.dto, System.out);
-        j.marshal(dto, new FileOutputStream("C:\\Neeraj\\deepak2.xml")); // no need to create file, it will create automatically
+        j.marshal(jsonObject, new FileOutputStream("C:\\Neeraj\\deepak2.xml")); // no need to create file, it will create automatically
     }
 
     //@Test

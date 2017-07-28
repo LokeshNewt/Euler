@@ -29,4 +29,13 @@ public class CountryStore {
         } 
         return null;
     }
+
+    public Country createCountry(Session session, Country country) throws DBException {
+        try{
+            session.save(country);
+        } catch (HibernateException e) {
+            throw new DBException(" error while executing sql query", e);
+        }
+        return null;
+    }
 }

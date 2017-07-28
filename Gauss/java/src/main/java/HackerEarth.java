@@ -27,7 +27,6 @@ public class HackerEarth {
         try {
             int b = 2;
             HackerEarth hackerEarth = new HackerEarth();
-            hackerEarth.learnJava8();
 //            List<List<Integer>> b = new ArrayList<>();
 //            List<Integer> c = new ArrayList<>();
 //            c.add(7);
@@ -62,67 +61,7 @@ public class HackerEarth {
         add = a;
     }
 
-    private void learnJava8 () {
-        List<String> names1 = new ArrayList<>();
-        names1.add("Mahesh ");
-        names1.add("Suresh ");
-        names1.add("Ramesh ");
-        names1.add("Naresh ");
-        names1.add("Kalpesh ");
-        List<String> names2 = new ArrayList<String>();
-        names2.add("Mahesh ");
-        names2.add("Suresh ");
-        names2.add("Ramesh ");
-        names2.add("Naresh ");
-        names2.add("Kalpesh ");
 
-        Collections.sort(names1, (s1, s2) -> s1.compareTo(s2)); // lambda expression to sort
-
-        names1.forEach(System.out::println); // for each loop and method refrences
-
-        MathOperation addition = (c, d) -> c + d; // inline implementation of a functional interfaceInfo
-
-        Greeting greeting = message -> System.out.println("Hello " + message); // inline implementation of a functional interfaceInfo
-
-        System.out.println(operate(5, 10, addition));
-        greeting.sayMessage("neeraj");
-
-        eval(names1, s -> s.contains("re"));  // functional interfaceInfo in Java 8
-
-        //streams - collection interfaces generate streams, other stream methods - limit, sorted, count
-        List<String> filtered = names1.stream().filter(s -> s.contains("re")).collect(Collectors.toList());
-        System.out.println(filtered);
-        List<Integer> numbers = Arrays.asList(1, 2, 4, 5, 6, 7, 5, 4);
-        List<Integer> squareList = numbers.stream().map(n -> n * n).distinct().collect(Collectors.toList());
-        System.out.println(squareList);
-        // collectors
-        String s2 = names1.stream().filter(s -> s.contains("re")).collect(Collectors.joining(", "));
-        System.out.println(s2);
-
-        // Optional
-        Integer value1 = null;
-        Integer value2 = 10;
-
-        Optional<Integer> a = Optional.ofNullable(value1); // allows passed parameter to be null
-        Optional<Integer> b = Optional.of(value2); // throws shared.exception if passed parameter is null
-        System.out.println(a.isPresent() + " - " + b.isPresent());
-        System.out.println(a.orElse(5)); // returns value if present otherwise returns default value
-        System.out.println(b.get()); // gets the value, value should be present
-
-        // timezone api's
-        LocalDateTime currentTime = LocalDateTime.now();
-        System.out.println(currentTime);
-        LocalDate date1 = currentTime.toLocalDate();
-        System.out.println(date1);
-
-        ZoneId currentZone = ZoneId.systemDefault();
-        System.out.println(currentZone);
-
-        LocalTime time1 = LocalTime.now();
-        Duration duration = Duration.ofHours(2);
-        time1 = time1.plus(duration);
-        System.out.println(time1);
-    }
 
     interface MathOperation {
         int operation(int a, int b);

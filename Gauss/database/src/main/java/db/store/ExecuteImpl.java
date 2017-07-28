@@ -42,12 +42,13 @@ public class ExecuteImpl implements IExecute {
             br.close();
             String stats[] = sb.toString().split(";");
             for (String stat : stats) {
-                if (stat.trim().length() > 0) {
+                if (stat.trim().length() > 0 && !stat.contains("--")) {
                     logger.info("Executing statement : " + stat);
 //                    System.out.println(stat);
-                    if (b) {
+                    if (stat.contains("select")) {
                         ResultSet rs = sta.executeQuery(stat);
                         result.showResultSet(rs);
+                        System.out.println();
                     }
                     else {
                         sta.execute(stat);

@@ -5,7 +5,7 @@ create database world;
 use world;
 
 create table Country (
-CountryId varchar(10) primary key,
+CountryId bigint primary key,
 NationalId varchar(10),
 Name varchar(25) not null,
 Capital varchar(25) not null,
@@ -16,11 +16,11 @@ Population varchar(15),
 CallingCode varchar(5)
 );
 
-insert into Country values('AUS01', '', 'Australia', 'Canberra', '2017-04-21 11:09:21', 'Australian dollar (AUD)'
+insert into Country values('1', 'AUS01', 'Australia', 'Canberra', '2017-04-21 11:09:21', 'Australian dollar (AUD)'
 , null, '24,429,200', '+61');
 
 create table CountryReligion (
-CountryId varchar(20),
+CountryId bigint,
 ReligionId varchar(20),
 percentage numeric(7,4),
 primary key(CountryId, ReligionId)

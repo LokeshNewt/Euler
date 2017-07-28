@@ -10,14 +10,14 @@ import java.util.Date;
  * Created by neerbans on 10/13/2016.
  */
 
-//@XmlRootElement(name = "employee")
-//@XmlType(propOrder = {"updatedDTTM", "createdDTTM"})
-//@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "country")
+@XmlType(propOrder = {"id", "name", "updatedDTTM", "createdDTTM"})
+@XmlAccessorType(XmlAccessType.FIELD)
 public class CountryDTO implements Serializable{
 
+    @XmlAttribute
     private Long id;
 
-    @XmlAttribute
     public Long getId() {
         return id;
     }
@@ -26,9 +26,9 @@ public class CountryDTO implements Serializable{
         this.id = id;
     }
 
+    @XmlElement
     private String name;
 
-    @XmlElement
     public String getName() {
         return name;
     }
@@ -37,9 +37,9 @@ public class CountryDTO implements Serializable{
         this.name = name;
     }
 
+    @XmlElement
     private Date createdDTTM;
 
-    @XmlElement
     public Date getCreatedDTTM() {
         return createdDTTM;
     }
@@ -48,9 +48,9 @@ public class CountryDTO implements Serializable{
         this.createdDTTM = createdDTTM;
     }
 
+    @XmlElement
     private CustomDate updatedDTTM;
 
-    @XmlElement
     public CustomDate getUpdatedDTTM() {
         return updatedDTTM;
     }
