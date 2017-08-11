@@ -1,9 +1,9 @@
 package store;
 
-import shared.entity.Country;
-import shared.entity.Religion;
+import entity.Country;
+import entity.Religion;
 import shared.exception.DBException;
-import shared.entity.Person;
+import entity.Person;
 import store.namedQuery.CountryNQ;
 import org.apache.log4j.Logger;
 import api.params.CountryParams;

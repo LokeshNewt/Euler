@@ -7,7 +7,7 @@
 
     <bean id="hibernateSessionFactory" parent="inheritedHibernateSessionFactory">
         <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan" value="store.namedQuery, shared.entity" />
+        <property name="packagesToScan" value="store.namedQuery, entity" />
     </bean>
 
     <bean id="paramConsent" class="store.aspect.CheckParamsAspect" />

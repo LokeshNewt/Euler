@@ -5,7 +5,7 @@ import store.namedQuery.CountryNQ;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import shared.entity.Country;
+import entity.Country;
 
 import java.util.List;
 
