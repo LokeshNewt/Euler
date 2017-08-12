@@ -1,12 +1,11 @@
 package entity;
 
-import org.hibernate.annotations.*;
+
+
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,6 +17,8 @@ import java.util.List;
 @Table(name = "Country")
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "country")
 public class Country extends BaseEntity implements Serializable {
+
+    public Country() {}
 
     public Country(String name, String capital, String population) {
         this.name = name;
