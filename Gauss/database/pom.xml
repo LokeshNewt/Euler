@@ -79,7 +79,7 @@
                 <configuration>
                     <finalName>db</finalName>
                     <descriptors>
-                        <descriptor>\src\main\assembly\distribution.xml</descriptor>
+                        <descriptor>src/main/assembly/distribution.xml</descriptor>
                     </descriptors>
                 </configuration>
                 <executions>

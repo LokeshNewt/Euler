@@ -1,8 +1,10 @@
 package sql;
 
+import entity.Country;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.repository.CrudRepository;
+import util.ResultUtils;
 
 /**
  * Created by neerbans on 2/16/2016.
@@ -23,11 +25,13 @@ public class EmployeeApp {
     private static void createEmployee(int id, String firstName, String lastName, String dept) {
 
         Employee customer = new Employee(id, firstName, lastName, dept);
-        repository.save(customer);
+        //repository.save(customer);
 
-        Iterable<Employee> customers = repository.findAll();
-        for (Employee customer1: customers) {
-            System.out.println(customer1.getFirstName());
-        }
+        Iterable<Country> customers = repository.findAll();
+
+        ResultUtils.result(customers);
     }
+
+
+
 }
