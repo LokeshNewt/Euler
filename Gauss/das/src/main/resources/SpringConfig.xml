@@ -29,15 +29,17 @@
         <!--<property name="url" value="jdbc:sqlserver://localhost;user=sa;password=Edifecs2014;database=Company"></property>-->
         <!--<property name="username" value="sa"></property>-->
         <!--<property name="password" value="Edifecs2014"></property>-->
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost/world" />
+        <!--<property name="driverClassName" value="com.p6spy.engine.spy.P6SpyDriver" />-->
+        <property name="driverClassName" value="net.sf.log4jdbc.DriverSpy" />
+        <!--<property name="driverClassName" value="com.mysql.jdbc.Driver" />-->
+        <property name="url" value="jdbc:log4jdbc:mysql://localhost/world" />
         <property name="username" value="root" />
         <property name="password" value="Neeraj123" />
     </bean>
 
     <bean id="hbAdapterBean" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-        <property name="showSql" value="true" />
-        <property name="generateDdl" value="true" />
+        <!--<property name="showSql" value="true" />-->
+        <!--<property name="generateDdl" value="true" />-->
     </bean>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -46,10 +48,15 @@
         <property name="packagesToScan" value="sql, entity"/> <!-- spring based scanning for entity classes-->
         <property name="jpaProperties">
             <props>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.use_sql_comments">true</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
                 <!--<prop key="hibernate.dialect">#{properties.DB_DIALECT}</prop>-->
                 <!--<prop key="hibernate.show_sql">#{properties.DB_SHOW_SQL}</prop>-->
                 <!--<prop key="hibernate.format_sql">#{properties.DB_FORMAT_SQL}</prop>-->
                 <prop key="hibernate.cache.use_second_level_cache">false</prop>
+                <prop key="hibernate.hbm2ddl.auto">none</prop>
                 <!--<prop key="hibernate.id.new_generator_mappings">false</prop>
                 --></props></property>
     </bean>

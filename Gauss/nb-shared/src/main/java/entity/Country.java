@@ -20,7 +20,7 @@ public class Country extends BaseEntity implements Serializable {
 
     public Country() {}
 
-    public Country(String name, String capital, String population) {
+    public Country(String name, String capital, Double population) {
         this.name = name;
         this.capital = capital;
         this.population = population;
@@ -38,7 +38,7 @@ public class Country extends BaseEntity implements Serializable {
     private String capital;
 
     @Column(name = "Population")
-    private String population;
+    private Double population;
 
     @OrderBy("name desc")
     @ManyToMany(fetch = FetchType.EAGER)
@@ -78,11 +78,11 @@ public class Country extends BaseEntity implements Serializable {
         this.capital = capital;
     }
 
-    public String getPopulation() {
+    public Double getPopulation() {
         return population;
     }
 
-    public void setPopulation(String population) {
+    public void setPopulation(Double population) {
         this.population = population;
     }
 }

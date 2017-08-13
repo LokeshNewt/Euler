@@ -1,8 +1,8 @@
 package com.javabrains.country;
 
 import entity.Country;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,13 +14,32 @@ import java.util.List;
 @RestController
 public class CountryController {
 
+    @Autowired
+    private CountryService countryService;
+
     @RequestMapping("/countries")
     public List<Country> getAllCountries() {
-        return Arrays.asList(
-                new Country("Australia", "Canberra", "66,545,000"),
-                new Country("Pakistan", "Islamabad", "540,545,000"),
-                new Country("France", "Paris", "540,545,000")
-        );
+        return countryService.getCountries();
+    }
+
+    @RequestMapping("/countries/{name}")
+    public Country getCountryByName(@PathVariable String name) {
+        return countryService.getCountry(name);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/countries")
+    public void addCountry(@RequestBody Country country) {
+        countryService.addCountry(country);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/countries/{name}")
+    public void updateCountry(@RequestBody Country country, @PathVariable String name) {
+        countryService.updateCountry(name, country);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/countries/{name}")
+    public boolean deleteCountry(@PathVariable String name) {
+        return countryService.deleteCountry(name);
     }
 
 }
