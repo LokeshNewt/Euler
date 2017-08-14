@@ -6,10 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
- * Created by neerbans on 7/28/2017.
- */
+* Created by neerbans on 7/28/2017.
+*/
 
-@SpringBootApplication(scanBasePackages = {"com.javabrains"})
+@SpringBootApplication
+        //(scanBasePackages = {"com.javabrains"})
 public class CourseApiApp {
 
     public static void main (String args []) {
