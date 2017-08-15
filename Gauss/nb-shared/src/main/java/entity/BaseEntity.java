@@ -9,7 +9,7 @@ import java.util.Date;
  * Created by neerbans on 4/11/2017.
  */
 @MappedSuperclass
-public class BaseEntity implements Serializable {
+public class  BaseEntity implements Serializable {
 
     @Column(name = "createdDate")
     private Date createdDate;

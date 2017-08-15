@@ -4,14 +4,8 @@ import entity.Country;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.Repository;
-import util.ResultUtils;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 import static util.ResultUtils.result;

@@ -15,10 +15,14 @@ import java.util.List;
 
 @Entity
 @Table(name = "Country")
-@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "country")
+//@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "country")
 public class Country extends BaseEntity implements Serializable {
 
     public Country() {}
+
+    public Country(Long id) {
+        this.countryId = id;
+    }
 
     public Country(String name, String capital, Double population) {
         this.name = name;
