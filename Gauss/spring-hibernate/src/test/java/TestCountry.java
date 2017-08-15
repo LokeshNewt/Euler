@@ -37,8 +37,8 @@ import java.util.List;
  * Created by neerbans on 10/6/2016.
  */
 
-@ContextConfiguration(locations = {"classpath:hb-context.xml"})
-@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations = {"classpath:hb-context.xml"})
+//@RunWith(SpringJUnit4ClassRunner.class)
 public class TestCountry {
 
     @Autowired

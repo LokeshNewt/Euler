@@ -12,3 +12,5 @@ or change dependency to :
  <artifactId>ojdbc7</artifactId>
  <version>12.1.0.2</version>
 </dependency>
+
+https://github.com/neerbans/Euler.git
