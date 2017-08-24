@@ -36,39 +36,39 @@ public class TestHibernateCache {
     }
 
     public void testCountry() throws DBException {
-        Session session = sessionFactory.openSession();
-        CountryStore countryStore = new CountryStore();
-//        Country country = session.load(Country.class, "AUS01");
-        Country country = countryStore.getCountryById(session, "AUS01");
-//        result(country);
-        System.out.println("name = " + country.getName());
-        printStats(stats, 1);
-
-//        country = session.load(Country.class, "AUS01");
-        country = countryStore.getCountryById(session, "AUS01");
-        System.out.println("name = " + country.getName());
-        printStats(stats, 2);
-
-//        session.evict(country);
-//        country = session.load(Country.class, "AUS01");
-        country = countryStore.getCountryById(session, "AUS01");
-//        result(country);
-        System.out.println("name = " + country.getName());
-        printStats(stats, 3);
-//        session.close();
-        testSession2();
+//        Session session = sessionFactory.openSession();
+//        CountryStore countryStore = new CountryStore();
+////        Country country = session.load(Country.class, "AUS01");
+//        Country country = countryStore.getCountryById(session, "AUS01");
+////        result(country);
+//        System.out.println("name = " + country.getName());
+//        printStats(stats, 1);
+//
+////        country = session.load(Country.class, "AUS01");
+//        country = countryStore.getCountryById(session, "AUS01");
+//        System.out.println("name = " + country.getName());
+//        printStats(stats, 2);
+//
+////        session.evict(country);
+////        country = session.load(Country.class, "AUS01");
+//        country = countryStore.getCountryById(session, "AUS01");
+////        result(country);
+//        System.out.println("name = " + country.getName());
+//        printStats(stats, 3);
+////        session.close();
+//        testSession2();
     }
 
     private void testSession2() throws DBException {
-        CountryStore countryStore = new CountryStore();
-        Session session = sessionFactory.openSession();
-        Country country = countryStore.getCountryById(session, "AUS01");
-//        Country country = session.load(Country.class, "AUS01");
-//        result(country);
-        System.out.println("name = " + country.getName());
-        printStats(stats, 4);
-        session.close();
-        sessionFactory.close();
+//        CountryStore countryStore = new CountryStore();
+//        Session session = sessionFactory.openSession();
+//        Country country = countryStore.getCountryById(session, "AUS01");
+////        Country country = session.load(Country.class, "AUS01");
+////        result(country);
+//        System.out.println("name = " + country.getName());
+//        printStats(stats, 4);
+//        session.close();
+//        sessionFactory.close();
     }
 
     private void printStats (Statistics stats, int i) {

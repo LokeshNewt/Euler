@@ -2,6 +2,8 @@ package entity;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,7 +13,8 @@ import java.util.Date;
 @MappedSuperclass
 public class  BaseEntity implements Serializable {
 
-    @Column(name = "createdDate")
+//    @Temporal(TemporalType.DATE)
+    @Column(name = "CreatedDate")
     private Date createdDate;
 
     public Date getCreatedDate() {

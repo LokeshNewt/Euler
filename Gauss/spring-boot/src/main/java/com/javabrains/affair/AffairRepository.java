@@ -1,7 +1,6 @@
 package com.javabrains.affair;
 
-import entity.Country;
-import entity.CurrentAffair;
+import entity.Event;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.List;
 /**
  * Created by neerbans on 15/8/17.
  */
-public interface AffairRepository extends CrudRepository<CurrentAffair, Long> {
+public interface AffairRepository extends CrudRepository<Event, Long> {
 
-    List<CurrentAffair> findByCountryCountryId(Long countryId);
+    List<Event> findByCountryCountryId(Long countryId);
 }

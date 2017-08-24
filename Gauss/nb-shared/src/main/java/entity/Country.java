@@ -2,12 +2,9 @@ package entity;
 
 
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by neerbans on 21/4/17.
@@ -44,13 +41,28 @@ public class Country extends BaseEntity implements Serializable {
     @Column(name = "Population")
     private Double population;
 
-    @OrderBy("name desc")
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "CountryReligion", joinColumns = {@JoinColumn(name = "countryId")},
-            inverseJoinColumns = {@JoinColumn(name = "religionId")})
-    private List<Religion> religions;
+    @OneToOne
+    @JoinColumn(name = "NationId")
+    private Nation info;
 
-    public List<Religion> getReligions() {
+    @OneToMany(mappedBy = "country")
+    private Collection<Event> events = new ArrayList<>();
+
+//    @OrderBy("name desc")
+    @ManyToMany//(fetch = FetchType.EAGER)
+//    @JoinTable(name = "Country_Religion", joinColumns = {@JoinColumn(name = "countryId")},
+//            inverseJoinColumns = {@JoinColumn(name = "religionId")})
+    private Collection<Religion> religions = new ArrayList<>();
+
+    public Collection<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Collection<Event> events) {
+        this.events = events;
+    }
+
+    public Collection<Religion> getReligions() {
         return religions;
     }
 
@@ -88,5 +100,13 @@ public class Country extends BaseEntity implements Serializable {
 
     public void setPopulation(Double population) {
         this.population = population;
+    }
+
+    public Nation getInfo() {
+        return info;
+    }
+
+    public void setInfo(Nation info) {
+        this.info = info;
     }
 }

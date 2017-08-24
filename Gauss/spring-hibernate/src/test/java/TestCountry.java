@@ -2,6 +2,7 @@ import api.dto.CountryDTO;
 import api.params.CountryParams;
 import api.params.QueryParams;
 import com.google.gson.*;
+import entity.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -15,8 +16,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import shared.CustomDate;
-import entity.BaseEntity;
-import entity.Country;
 import shared.exception.DBException;
 import shared.exception.InvalidArgException;
 import store.CountryStore;
@@ -37,12 +36,15 @@ import java.util.List;
  * Created by neerbans on 10/6/2016.
  */
 
-//@ContextConfiguration(locations = {"classpath:hb-context.xml"})
-//@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:hb-context.xml"})
+@RunWith(SpringJUnit4ClassRunner.class)
 public class TestCountry {
 
     @Autowired
     private IManageCountry manageCountry;
+
+    @Autowired
+    private CountryStore countryStore;
 
     @Autowired
     @Qualifier("hibernateSessionFactory")
@@ -64,26 +66,104 @@ public class TestCountry {
         System.out.println("name = " + country.getName());
     }
 
+//    @Test
     public void getCountryById() throws DBException {
         Session session = sessionFactory.openSession();
         CountryStore countryStore = new CountryStore();
-        Country country = countryStore.getCountryById(session, "AUS01");
-        result(country);
+        List<Country> countries = countryStore.getCountryById(session, 1L, 0, Integer.MAX_VALUE-1);
+        countries.forEach(c -> System.out.println(c.getCountryId()));
+        System.out.println(countries.size() + "----------");
+//        result(country);
+        session.close();
+    }
+
+//   @Test
+    public void createCountry() throws DBException {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        for (int i=0; i<4; i++) {
+           Country country = new Country();
+           country.setName("New Zealand");
+           country.setCapital("Wellington");
+           country.setCreatedDate(new Date());
+           session.save(country);
+//
+//        Nation info = new Nation();
+//        info.setPresident("president");
+//        info.setPrime_minister("pm");
+//
+//        country.setInfo(info);
+        }
+        session.getTransaction().commit();
+        session.close();
+//        sessionFactory.close();
+    }
+
+    // @Test
+    public void createCountry_OneToMany() throws DBException {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Country country = new Country();
+        country.setName("New Zealand");
+        country.setCapital("Wellington");
+        country.setCreatedDate(new Date());
+//
+//        Nation info = new Nation();
+//        info.setPresident("president");
+//        info.setPrime_minister("pm");
+//
+//        country.setInfo(info);
+        Event event1 = new Event();
+        event1.setDesc("Babri Mosque");
+        Event event2 = new Event();
+        event2.setDesc("Operation Blue Star");
+        country.getEvents().add(event1);
+        country.getEvents().add(event2);
+        event1.setCountry(country);
+        event2.setCountry(country);
+        countryStore.createCountry(session, country);
+        session.save(event1);
+        session.save(event2);
+        session.getTransaction().commit();
+        session.close();
+//        sessionFactory.close();
+    }
+
+
+    //    @Test
+    public void createCountry_ManyToMany() throws DBException {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Country country = new Country();
+        country.setName("New Zealand");
+        country.setCapital("Wellington");
+        country.setCreatedDate(new Date());
+        Religion religion1 = new Religion();
+        religion1.setName("Budhism");
+        Religion religion2 = new Religion();
+        religion2.setName("Budhism");
+        country.getReligions().add(religion1);
+        country.getReligions().add(religion2);
+        religion1.getCountries().add(country);
+        religion2.getCountries().add(country);
+        countryStore.createCountry(session, country);
+        session.save(religion1);
+        session.save(religion2);
+        session.getTransaction().commit();
         session.close();
 //        sessionFactory.close();
     }
 
 //    @Test
-    public void createCountry() throws DBException {
+    public void getCountryBySession() throws DBException {
         Session session = sessionFactory.openSession();
-        CountryStore countryStore = new CountryStore();
-        Country country = new Country();
-//        country.setCountryId(2L);
-        country.setName("New Zealand");
-        country.setCapital("Wellington");
-        countryStore.createCountry(session, country);
+        session.beginTransaction();
+        Country country = session.get(Country.class, 1L);
+        System.out.println(country.getName());
         session.close();
-        sessionFactory.close();
+        System.out.println(country.getEvents().size());
+//        result(country);
+//        session.close();
     }
 
 //    @Test

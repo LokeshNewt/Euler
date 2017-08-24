@@ -1,8 +1,6 @@
 package com.javabrains.affair;
 
-import com.javabrains.affair.AffairRepository;
-import entity.Country;
-import entity.CurrentAffair;
+import entity.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,25 +17,25 @@ public class AffairService {
     @Autowired
     private AffairRepository affairRepository;
 
-    public List<CurrentAffair> getCurrentAffairs (Long countryId) {
-        List<CurrentAffair> currentAffairs = new ArrayList<>();
-        affairRepository.findByCountryCountryId(countryId).forEach(currentAffairs::add);
-        return currentAffairs;
+    public List<Event> getCurrentAffairs (Long countryId) {
+        List<Event> events = new ArrayList<>();
+        affairRepository.findByCountryCountryId(countryId).forEach(events::add);
+        return events;
     }
 
-    public CurrentAffair getCurrentAffair (Long id) {
+    public Event getCurrentAffair (Long id) {
         return affairRepository.findOne(id);
     }
 
-    public void addAfair(CurrentAffair affair) {
-        affairRepository.save(affair);
+    public void addAfair(Event event) {
+        affairRepository.save(event);
     }
 
     public void deleteCurrentAffair(Long id) {
         affairRepository.delete(id);
     }
 
-    public void updateCurrentAffair(CurrentAffair affair) {
-        affairRepository.save(affair);
+    public void updateCurrentAffair(Event event) {
+        affairRepository.save(event);
     }
 }

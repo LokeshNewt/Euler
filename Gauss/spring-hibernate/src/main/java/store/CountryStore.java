@@ -15,19 +15,18 @@ import java.util.List;
 public class CountryStore {
 
     @SuppressWarnings("unchecked")
-    public Country getCountryById(Session session, String Id) throws DBException {
+    public List<Country> getCountryById(Session session, Long Id, int start, int limit) throws DBException {
         List<Country> countries = null;
         try{
             Query query = session.getNamedQuery(CountryNQ.GET_COUNTRY);
-            query.setString(CountryNQ.Params.COUNTRY_ID, Id);
+            query.setLong(CountryNQ.Params.COUNTRY_ID, Id);
+            query.setMaxResults(limit);
+            query.setFirstResult(start);
             countries = (List<Country>) query.list();
-            if (countries.size() > 0) {
-                return countries.get(0);
-            }
         } catch (HibernateException e) {
             throw new DBException(" error while executing sql query", e);
         } 
-        return null;
+        return countries;
     }
 
     public Country createCountry(Session session, Country country) throws DBException {

@@ -1,22 +1,22 @@
 package entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * Created by neerbans on 15/8/17.
  */
 
-@Entity
-public class CurrentAffair extends BaseEntity {
+@Entity(name = "Event")
+//@Embeddable
+public class Event extends BaseEntity {
 
     @Id
-    @Column(name = "CurrentAffairId")
-    private Long currentAffairId;
+    @GeneratedValue
+    @Column(name = "EventId")
+    private Long eventId;
 
-    @Column(name = "Desc")
+//    @Lob
+    @Column(name = "Description")
     private String desc;
     @Column(name = "Place")
     private String place;
@@ -24,6 +24,7 @@ public class CurrentAffair extends BaseEntity {
     private String type;
 
     @ManyToOne
+//    @JoinColumn(name = "CountryId")
     private Country country;
 
     public Country getCountry() {
@@ -34,12 +35,12 @@ public class CurrentAffair extends BaseEntity {
         this.country = country;
     }
 
-    public Long getCurrentAffairId() {
-        return currentAffairId;
+    public Long getEventId() {
+        return eventId;
     }
 
-    public void setCurrentAffairId(Long currentAffairId) {
-        this.currentAffairId = currentAffairId;
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
     }
 
     public String getDesc() {

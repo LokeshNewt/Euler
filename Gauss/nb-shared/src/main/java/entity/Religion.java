@@ -1,9 +1,8 @@
 package entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by neerbans on 22/4/17.
@@ -14,8 +13,9 @@ import javax.persistence.Table;
 public class Religion extends BaseEntity {
 
     @Id
+    @GeneratedValue
     @Column(name = "ReligionId")
-    String religionId;
+    Long religionId;
 
     @Column(name = "God")
     String god;
@@ -26,11 +26,22 @@ public class Religion extends BaseEntity {
     @Column(name = "Name")
     String name;
 
-    public String getReligionId() {
+    @ManyToMany(mappedBy = "religions")
+    private Collection<Country> countries = new ArrayList<>();
+
+    public Collection<Country> getCountries() {
+        return countries;
+    }
+
+    public void setCountries(Collection<Country> countries) {
+        this.countries = countries;
+    }
+
+    public Long getReligionId() {
         return religionId;
     }
 
-    public void setReligionId(String religionId) {
+    public void setReligionId(Long religionId) {
         this.religionId = religionId;
     }
 

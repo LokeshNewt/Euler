@@ -25,5 +25,5 @@ public class CountryNQ {
 
     public static final String GET_COUNTRY = "getCountry";
 
-    static final String GET_COUNTRY_QUERY = "select c from Country c where c.countryId = :" + Params.COUNTRY_ID;
+    static final String GET_COUNTRY_QUERY = "select c from Country c where c.countryId > :" + Params.COUNTRY_ID;
 }
