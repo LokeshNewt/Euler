@@ -45,7 +45,7 @@ public class Country extends BaseEntity implements Serializable {
     @JoinColumn(name = "NationId")
     private Nation info;
 
-    @OneToMany(mappedBy = "country")
+    @OneToMany(cascade = CascadeType.PERSIST)//(mappedBy = "country")
     private Collection<Event> events = new ArrayList<>();
 
 //    @OrderBy("name desc")

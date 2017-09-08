@@ -1,5 +1,8 @@
 package entity;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 
 /**
@@ -23,17 +26,18 @@ public class Event extends BaseEntity {
     @Column(name = "Type")
     private String type;
 
-    @ManyToOne
-//    @JoinColumn(name = "CountryId")
-    private Country country;
+//    @ManyToOne
+////    @NotFound(action = NotFoundAction.IGNORE)
+////    @JoinColumn(name = "CountryId")
+//    private Country country;
 
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
-    }
+//    public Country getCountry() {
+//        return country;
+//    }
+//
+//    public void setCountry(Country country) {
+//        this.country = country;
+//    }
 
     public Long getEventId() {
         return eventId;

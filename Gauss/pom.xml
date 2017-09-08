@@ -25,6 +25,7 @@
         <module>database</module>
         <module>nb-shared</module>
         <module>spring-boot</module>
+        <module>elasticsearch</module>
     </modules>
 
     <dependencyManagement>

@@ -1,9 +1,8 @@
 package store.namedQuery;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.QueryHint;
+import entity.Country;
+
+import javax.persistence.*;
 
 /**
  * Created by neerbans on 10/8/2016.
@@ -15,6 +14,8 @@ import javax.persistence.QueryHint;
                 @QueryHint(name = "org.hibernate.cacheable", value = "true")
         })
 })
+// we can write sql query using @NamedNativeQuery
+@NamedNativeQuery(name = CountryNQ.GET_NATIVE_COUNTRY, query = "select * from Country where countryId = ?", resultClass = Country.class)
 public class CountryNQ {
 
     public interface Params {
@@ -23,7 +24,8 @@ public class CountryNQ {
         String COUNTRY_ID = "countryId";
     }
 
-    public static final String GET_COUNTRY = "getCountry";
+    public static final String GET_COUNTRY = "Country.byId";
+    public static final String GET_NATIVE_COUNTRY = "CountryNative.byId";
 
     static final String GET_COUNTRY_QUERY = "select c from Country c where c.countryId > :" + Params.COUNTRY_ID;
 }

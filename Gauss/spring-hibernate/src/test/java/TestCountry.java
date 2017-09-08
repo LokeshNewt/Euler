@@ -3,9 +3,11 @@ import api.params.CountryParams;
 import api.params.QueryParams;
 import com.google.gson.*;
 import entity.*;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
+import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.json.JSONObject;
 import org.json.XML;
 import org.junit.Ignore;
@@ -20,6 +22,7 @@ import shared.exception.DBException;
 import shared.exception.InvalidArgException;
 import store.CountryStore;
 import store.IManageCountry;
+import store.namedQuery.CountryNQ;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -99,7 +102,109 @@ public class TestCountry {
 //        sessionFactory.close();
     }
 
-    // @Test
+       //@Test
+    public void crudCountry() throws DBException {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+           // create
+//        for (int i=0; i<10; i++) {
+           Country country = new Country();
+           country.setName("New Zealand ");
+           country.setCapital("Wellington ");
+           country.setCreatedDate(new Date());
+           session.save(country);
+//        }
+
+        session.getTransaction().commit();
+
+           session.close();
+//           System.out.println(" Country name pulled up is : " + country.getName());
+
+//        sessionFactory.close();
+    }
+
+//    @Test
+    public void queryCountry() throws DBException {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        Long countryId = 5l;
+
+        // parameter binding using positions
+//        Query query = session.createQuery("from Country where countryId > ? and capital = ?" );
+//        query.setLong(0, countryId); // 0 is the position indicator
+//        query.setString(1, "paris");
+        // parameter binding using :
+        Query query = session.createQuery("from Country where countryId > :id and capital = :capital" );
+        query.setLong("id", countryId); // 0 is the position indicator
+        query.setString("capital", "paris");
+        query.setFirstResult(3);
+        query.setMaxResults(10);
+
+        List<Country> countries = query.list();
+
+        session.getTransaction().commit();
+        session.close();
+        System.out.println(" Country name pulled up is : " + countries.size());
+
+//        sessionFactory.close();
+    }
+
+//    @Test
+    public void criteriaCountry() throws DBException {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        Long countryId = 11L;
+
+        Country exampleCountry = new Country();
+//        exampleCountry.setCountryId(5L);
+        exampleCountry.setName("France");
+
+        Example example = Example.create(exampleCountry).excludeProperty("capital");
+
+        Criteria criteria = session.createCriteria(Country.class)
+                .add(example);
+//                .setProjection(Projections.property("countryId"))
+//                .addOrder(Order.desc("name"));
+//        criteria.add(Restrictions.or(Restrictions.between("", 5, 10), Restrictions.ge("", 34)));
+//        criteria.add(Restrictions.eq("capital", "paris"))
+//                .add(Restrictions.gt("countryId", 5L));
+
+        List<Country> countries = criteria.list();
+
+        session.getTransaction().commit();
+        session.close();
+        System.out.println(" Country name pulled up is : " + countries.size());
+
+//        sessionFactory.close();
+    }
+
+//    @Test
+    public void namedQueryCountry() throws DBException {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        Long countryId = 11L;
+
+
+        Query query = session.getNamedQuery(CountryNQ.GET_NATIVE_COUNTRY);
+        query.setLong(0, countryId);
+//        Query query = session.getNamedQuery(CountryNQ.GET_COUNTRY);
+//        query.setLong(CountryNQ.Params.COUNTRY_ID, countryId);
+//        query.setFirstResult(3);
+//        query.setMaxResults(10);
+
+        List<Country> countries = query.list();
+
+        session.getTransaction().commit();
+        session.close();
+        System.out.println(" Country name pulled up is : " + countries.size());
+
+//        sessionFactory.close();
+    }
+
+   // @Test
     public void createCountry_OneToMany() throws DBException {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
@@ -119,11 +224,11 @@ public class TestCountry {
         event2.setDesc("Operation Blue Star");
         country.getEvents().add(event1);
         country.getEvents().add(event2);
-        event1.setCountry(country);
-        event2.setCountry(country);
-        countryStore.createCountry(session, country);
-        session.save(event1);
-        session.save(event2);
+//        event1.setCountry(country);
+//        event2.setCountry(country);
+        session.persist(country);
+//        session.save(event1);
+//        session.save(event2);
         session.getTransaction().commit();
         session.close();
 //        sessionFactory.close();

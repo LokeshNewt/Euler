@@ -34,3 +34,11 @@ in sql, on using AUTO it uses SEQUENCE
 Default Fetch type is LazyFetching.
 hibernate use prozy objects to provide lazy fetching.
 What hibernate return from session.get() methods are proxy objects that are sub-classes of main objects.
+
+Transient - when hibernate does not know about the object, then it is in transient state. [new ()]
+Persistent - when we do session.save(object), object is in persistence state, whatever changes we make to the persistence object before transaction.commit()
+will reflect in the database. [session.save(), session.get()]
+Detached - After session.close(), object is in detached state, it is no longer maintained by hibernate. Detached means object was once persisted by hibernate.
+[session.close()]
+
+Transient <- session.delete() - Persistent - session.close() -> Detached()
