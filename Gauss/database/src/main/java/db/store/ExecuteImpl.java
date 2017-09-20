@@ -28,8 +28,10 @@ public class ExecuteImpl implements IExecute {
 
     @Override
     public void executeFile(Properties props, Statement sta) throws SQLException {
+
         try {
             Boolean b = Boolean.parseBoolean(props.getProperty("see_result_set"));
+            Boolean b2 = Boolean.parseBoolean(props.getProperty("see_query_time"));
 
             InputStream inputStream = ClassLoader.getSystemResourceAsStream("script/scripts.sql");
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
@@ -45,13 +47,18 @@ public class ExecuteImpl implements IExecute {
                 if (stat.trim().length() > 0 && !stat.contains("--")) {
                     logger.info("Executing statement : " + stat);
 //                    System.out.println(stat);
-                    if (stat.contains("select")) {
+                    if (stat.contains("select") && b) {
                         ResultSet rs = sta.executeQuery(stat);
                         result.showResultSet(rs);
                         System.out.println();
                     }
                     else {
+                        long lStartTime = System.currentTimeMillis();
                         sta.execute(stat);
+                        long output = System.currentTimeMillis() - lStartTime;
+                        if (b2) {
+                            System.out.println("query execution time in milliseconds : " + output + "ms");
+                        }
                     }
                 }
             }

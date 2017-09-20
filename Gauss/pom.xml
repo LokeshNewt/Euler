@@ -26,6 +26,8 @@
         <module>nb-shared</module>
         <module>spring-boot</module>
         <module>elasticsearch</module>
+        <module>groovy</module>
+        <module>rest-web-services</module>
     </modules>
 
     <dependencyManagement>
