@@ -10,58 +10,90 @@ class Example {
     static void main(String[] args) {
         println('hello world');
 
-//        def json = new JsonBuilder()
-//
-//        def status = "jdjdjdj";
-//
-//        json {
-//            status1 status
-//        }
-//
-//        println json.toString();
-        def errorList = [];
+        def inputStream = new InputStreamReader(new FileInputStream("C:\\Neeraj\\Tenncare\\org_feed.txt"), "UTF-8");
+
+        List nonEmptyLineList = new ArrayList();
+
+        inputStream.eachLine { line ->
+            if (line?.trim()) {
+                nonEmptyLineList.add(line)
+            }
+        }
+        inputStream.close()
+
+        String orgFeed = nonEmptyLineList.get(0);
+        List<String> orgFeedLine1 = orgFeed.split("~");
+
+        def requestList = [];
+
+        for (String s : nonEmptyLineList) {
+            List<String> orgFeedLine = s.split("~");
+            for (int i = 0; i < orgFeedLine.size(); i++) {
+                if (orgFeedLine.get(i) == '') {
+                    orgFeedLine.set(i, null);
+                }
+            }
+            if (orgFeedLine.get(1) != "CMS Facility Number") {
+                continue;
+            }
+            String action = orgFeedLine.get(12);
+            if (action != null && action != '') {
+                if (action != 'DELETE') {
+                    action = 'UPSERT';
+                }
+            }
+            requestList.add(new OrgRequest(associatedOrgQualifier: orgFeedLine.get(1), associatedOrgID: orgFeedLine.get(2), associatedOrgName: orgFeedLine.get(3),
+                    associatedOrgType: orgFeedLine.get(4), associatedOrgAddress: orgFeedLine.get(5), associatedOrgCity: orgFeedLine.get(6),
+                    associatedOrgState: orgFeedLine.get(7), associatedOrgZip: orgFeedLine.get(8), associatedOrgPhone: orgFeedLine.get(9),
+                    associatedOrgAdmin: orgFeedLine.get(10), associatedOrgAdminEmail: orgFeedLine.get(11), action: action));
+        }
+
+        def requestBuilder = new JsonBuilder()
+        def requestId = orgFeedLine1.get(0);
+        requestBuilder {
+            requestID requestId
+            orgDetails requestList
+        }
+
 
         def jsonSlurper = new JsonSlurper()
-        def reader = new BufferedReader(new InputStreamReader(new FileInputStream("C:\\Neeraj\\Tenncare\\z_cnsi_response.txt"), "UTF-8"))
-        def data = jsonSlurper.parse(reader)
-        println data.requestID
-        if (data.status.code != 200) {
-            throw new RuntimeException(" Failed Upload of Orgs ")
-        } else {
-            def org = data.orgDetails
-            org.each {
-                if (it.status.code != 200) {
-                    println "qualifier : " + it.associatedOrgQualifier
-                    println "desc : " + it.status.desc
-                    errorList.add(new ErrorResponse(associatedOrgQualifier: it.associatedOrgQualifier, desc: it.status.desc))
-//        errorList.add(new ErrorResponse(associatedOrgQualifier: 'dd', desc: 'ff'))
-                }
-                println it.associatedOrgQualifier
-            }
-            if (errorList.size() > 0) {
-                println errorList;
-            }
-//        }
-//    }
+        def data = jsonSlurper.parseText(requestBuilder.toString())
+
+        def data2 = new Example().denull(data) // change
+
+        requestBuilder {
+            requestID requestId
+            orgDetails data2.get("orgDetails")
         }
 
-        def builder = new JsonBuilder()
-        builder {
-            response errorList
-        }
-
-        println builder.toPrettyString()
+        println requestBuilder.toPrettyString()
     }
 
-//    class ErrorResponse {
-//        Map propMap
-//        def ErrorResponse(Map propMap) {
-//            this.propMap = propMap
-//        }
-//    }
-//    }
+    def denull(obj) {
+        if (obj instanceof Map) {
+            obj.collectEntries { k, v ->
+                if (v) [(k): denull(v)] else [:]
+            }
+        } else if (obj instanceof List) {
+            obj.collect { denull(it) }.findAll { it != null }
+        } else {
+            obj
+        }
+    }
+
 }
-class ErrorResponse {
-    def associatedOrgQualifier
-    def desc
+
+class OrgRequest {
+    String associatedOrgQualifier
+    String associatedOrgID
+    String associatedOrgName
+    String associatedOrgType
+    String associatedOrgAddress
+    String associatedOrgCity
+    String associatedOrgState
+    String associatedOrgZip
+    String associatedOrgPhone
+    String associatedOrgAdmin
+    String associatedOrgAdminEmail
+    String action
 }

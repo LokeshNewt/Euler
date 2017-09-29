@@ -3,6 +3,7 @@ import api.params.CountryParams;
 import api.params.QueryParams;
 import com.google.gson.*;
 import entity.*;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.*;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
