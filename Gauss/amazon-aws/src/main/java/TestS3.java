@@ -1,11 +1,16 @@
 import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.StringUtils;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,52 +19,81 @@ import java.util.Map;
  */
 public class TestS3 {
 
+
+    static String accessKey = "AKIAJXHU3MBVMET2X3SQ"; //AKIAJXHU3MBVMET2X3SQ
+    static String secretKey = "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"; //6tYP7M54soID2vB9eB/MFt77SSteNOh4o9lVByv7
+    static String bucketName = "aa-unit-1101";
+    static String regionName = "ap-southeast-2";
+    static String folderName = "/tuesday/kkkkjjj";
+    static String fileName = "org_feed_test5hhh";
+
     private static final String SUFFIX = "/";
     private static final String META_DATA_PARAM_PREFIX = "Metadata.";
 
     public static void main(String[] args) {
-        String s = "       ";
-        System.out.println(s.length());
-        if (StringUtils.isNullOrEmpty(s)) {
-            System.out.println("null/empty");
-        }
-        System.out.println(0/0);
+//        String s = "       ";
+//        System.out.println(s.length());
+//        if (StringUtils.isNullOrEmpty(s)) {
+//            System.out.println("null/empty");
+//        }
+//        System.out.println(0/0);
         saveFiletoS3();
+
+//        testCreateS3Client();
     }
 
     private static void saveFiletoS3() {
-        String accessKey = "AKIAJXHU3MBVMET2X3SQ"; //AKIAJXHU3MBVMET2X3SQ
-        String secretKey = "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"; //6tYP7M54soID2vB9eB/MFt77SSteNOh4o9lVByv7
-        String bucketName = "test-bucket-0928";
-        String regionName = "sa-east-1";
-        String folderName = "thursday    ";
-        String fileName = "org_feed_test3.txt";
+
 
         AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
+//        AmazonS3 s3client = new AmazonS3Client(credentials);
+        AmazonS3 s3client = AmazonS3ClientBuilder.standard().withRegion(Regions.DEFAULT_REGION).withForceGlobalBucketAccessEnabled(true)
+                .withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
 
-        AmazonS3 s3client = new AmazonS3Client(credentials); // todo - use latest client api's
+        //System.out.println(!s3client.doesBucketExistV2("test-bucket-1003"));
+
+//        String r = s3client.getBucketLocation("ddd");
+//        System.out.println(r);
+//        if (!s3client.doesBucketExistV2("test-bucket-1003")) {
+//            System.out.println("true");
+//        }
+//
+//        System.out.println(0/0);
+
+        String bucketName = "{Prp[BucketName]}";
+        boolean isBucketExist = !s3client.doesBucketExistV2("45kkkkkkkkkddddddddddkdd");
+//        boolean isBucketExist = !s3client.doesBucketExistV2(bucketName);
 
         // process bucket and region
-        boolean isBucketExist = false;
         try {
-            // check if bucket exists or not
-            for (Bucket bucket : s3client.listBuckets()) {
-                if (bucket.getName().equals(bucketName)) {
-                    isBucketExist = true;
-                }
-            }
             // create a bucket if it does not already exist
-            if (!isBucketExist) {
+            if (false) {
+//            if (!s3client.doesBucketExistV2(bucketName)) {
                 if (StringUtils.isNullOrEmpty(regionName)) {
-                    s3client.createBucket(bucketName);
+                    try {
+                        s3client.createBucket(bucketName);
+                    } catch (IllegalArgumentException e) {
+                        throw new RuntimeException("invalid bucket name : " + bucketName);
+                    }
                 }
                 else {
                     try {
+//                        s3client = AmazonS3ClientBuilder.standard().withRegion(Regions.DEFAULT_REGION).enableForceGlobalBucketAccess()
+//                                .withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
+//                        AmazonS3 s3client3 = new AmazonS3Client(credentials);
                         // get region from user input value
                         Region region = Region.fromValue(regionName);
+//                        s3client3.createBucket(bucketName);
                         s3client.createBucket(new CreateBucketRequest(bucketName, region));
-                    } catch (IllegalArgumentException e) {
-                        throw new RuntimeException("please specify a valid region value");
+//                        s3client.shutdown();
+                    } catch (IllegalArgumentException | AmazonS3Exception e) {
+                        if (e.getMessage().contains("Cannot create enum")) {
+                            throw new RuntimeException("invalid region id :" + regionName, e);
+                        } else if (e.getMessage().contains("BucketAlreadyOwnedByYou")) {
+                            System.out.println(e.getMessage());
+                            System.out.println("bucket already exist");
+                        }
+
                     }
                 }
             }
@@ -67,15 +101,17 @@ public class TestS3 {
             if (e.getErrorCode().equals("SignatureDoesNotMatch")) {
                 throw new RuntimeException("invalid secret key value");
             } else if (e.getErrorCode().equals("InvalidAccessKeyId")) {
-                throw new RuntimeException("invalid access key value");
+                throw new RuntimeException("invalid access key value", e);
             }
+            throw new RuntimeException(e);
         }
 
         folderName = removeLeadingAndTrailingSpaces(folderName, SUFFIX);
 
+//        String key = folderName + "" + fileName;
         String key = folderName + SUFFIX + fileName;
 
-        createFolder(bucketName, key, s3client);
+        //createFolder(bucketName, key, s3client);
 
         InputStream inputStream;
         try {
@@ -89,27 +125,33 @@ public class TestS3 {
 
         try {
             metaData.setContentLength((long)inputStream.available());
-            PutObjectRequest objectRequest = new PutObjectRequest(bucketName, key, inputStream, metaData);
-            s3client.putObject(objectRequest);
+
+//                System.out.println("- storing objects in bucket: " + b.getName());
+                PutObjectRequest objectRequest = new PutObjectRequest(bucketName, key, inputStream, metaData);
+//                PutObjectRequest objectRequest = new PutObjectRequest(bucketName, key, inputStream, metaData);
+                s3client.putObject(objectRequest);
+//                System.out.println(" --- objects stored  in bucket: " + b.getName());
+            System.out.println(s3client.doesBucketExistV2(bucketName));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     private static String removeLeadingAndTrailingSpaces(String s1, String divider) {
-        if (s1.startsWith(divider)) {
-            s1 = s1.substring(1);
-        }
-        if (s1.endsWith(divider)) {
-            s1 = s1.substring(0, s1.length()-1);
-        }
-        StringBuilder sb = new StringBuilder();
-        for (String s : s1.split(divider)) {
-            sb.append(s.trim());
-            sb.append(divider);
-        }
-        s1 = sb.toString();
-        return s1.substring(0, s1.length() - 1);
+//        if (s1.startsWith(divider)) {
+//            s1 = s1.substring(1);
+//        }
+//        if (s1.endsWith(divider)) {
+//            s1 = s1.substring(0, s1.length()-1);
+//        }
+//        StringBuilder sb = new StringBuilder();
+//        for (String s : s1.split(divider)) {
+//            sb.append(s.trim());
+//            sb.append(divider);
+//        }
+//        s1 = sb.toString();
+//        return s1.substring(0, s1.length() - 1);
+        return s1.trim();
     }
 
     private static void setUserMetaDataParams(ObjectMetadata metaData, Map<String, String> properties) {
@@ -131,19 +173,4 @@ public class TestS3 {
         return map;
     }
 
-    private static void createFolder(String bucketName, String folderName, AmazonS3 client) {
-
-        // create meta-data for your folder and set content-length to 0
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentLength(0);
-
-        // create empty content
-        InputStream emptyContent = new ByteArrayInputStream(new byte[0]);
-
-        // create a PutObjectRequest passing the folder name suffixed by /
-        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, folderName, emptyContent, metadata);
-
-        // send request to S3 to create folder
-        client.putObject(putObjectRequest);
-    }
 }

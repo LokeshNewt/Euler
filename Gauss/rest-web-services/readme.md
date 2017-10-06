@@ -15,3 +15,5 @@ Message headers
 
 PUT - to update/change a resource
 POST - to create new resources
+
+jax-rs -> jersey and RestEasy implements jax-rs interfaces and annotations
