@@ -3,6 +3,7 @@ package entity;
 
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.*;
 
@@ -12,6 +13,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "Country")
+@XmlRootElement
 //@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "country")
 public class Country extends BaseEntity implements Serializable {
 
@@ -25,6 +27,14 @@ public class Country extends BaseEntity implements Serializable {
         this.name = name;
         this.capital = capital;
         this.population = population;
+    }
+
+    public Country(Long id, String name, String capital, Double population) {
+        this.countryId = id;
+        this.name = name;
+        this.capital = capital;
+        this.population = population;
+        this.createdDate = new Date();
     }
 
     @Id

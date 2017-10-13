@@ -15,7 +15,7 @@ public class  BaseEntity implements Serializable {
 
 //    @Temporal(TemporalType.DATE)
     @Column(name = "CreatedDate")
-    private Date createdDate;
+    public Date createdDate;
 
     public Date getCreatedDate() {
         return createdDate;

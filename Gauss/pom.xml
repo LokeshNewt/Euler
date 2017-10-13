@@ -29,6 +29,7 @@
         <module>groovy</module>
         <module>amazon-aws</module>
         <module>rest-web-services</module>
+        <module>message-service</module>
     </modules>
 
     <dependencyManagement>
