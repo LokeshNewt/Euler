@@ -10,7 +10,9 @@ public class Trim {
     public static void main (String args[]) {
         Trim t = new Trim();
 //        t.testBoolean("truee");
-        t.trimString();
+//        t.trimString();
+       String s =  t.removeLeadingAndTrailingSpaces("/ jdjd/jdjdjd/   ab", "/");
+        System.out.println(s);
     }
 
     private void dateTimeFormat() {
@@ -62,4 +64,22 @@ public class Trim {
         s = s.trim().replaceAll(" +", " ");
         System.out.println(s);
     }
+
+    private String removeLeadingAndTrailingSpaces(String s1, String divider) {
+        if (s1.startsWith(divider)) {
+            s1 = s1.substring(1);
+        }
+        if (s1.endsWith(divider)) {
+            s1 = s1.substring(0, s1.length()-1);
+        }
+//        StringBuilder sb = new StringBuilder();
+//        for (String s : s1.split(divider)) {
+//            sb.append(s.trim());
+//            sb.append(divider);
+//        }
+//        s1 = sb.toString();
+//        return s1.substring(0, s1.length() - 1);
+        return s1.trim();
+    }
+
 }

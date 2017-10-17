@@ -20,8 +20,8 @@ import java.util.Map;
 public class TestS3 {
 
 
-    static String accessKey = "AKIAJXHU3MBVMET2X3SQ"; //AKIAJXHU3MBVMET2X3SQ
-    static String secretKey = "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"; //6tYP7M54soID2vB9eB/MFt77SSteNOh4o9lVByv7
+    static String accessKey = "AKIAIQV43WVU3PN7SZ6A"; //AKIAJXHU3MBVMET2X3SQ
+    static String secretKey = "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"; //6tYP7M54soID2vB9eB/MFt77SSteNOh4o9lVByv7
     static String bucketName = "aa-unit-1101";
     static String regionName = "ap-southeast-2";
     static String folderName = "/tuesday/kkkkjjj";
@@ -58,11 +58,24 @@ public class TestS3 {
 //            System.out.println("true");
 //        }
 //
-//        System.out.println(0/0);
+
+        S3Object s3Object = s3client.getObject(new GetObjectRequest("aa-route-1003", "folder-609//abc2"));
+
+        Map<String, String> map = s3Object.getObjectMetadata().getUserMetadata();
+
+        System.out.println(map.size());
+
+        for (Map.Entry entry : map.entrySet()){
+            System.out.println(entry.getKey() + " - " + entry.getValue());
+        }
+
+        System.out.println(s3Object.getObjectMetadata().getRawMetadata());
 
         String bucketName = "{Prp[BucketName]}";
         boolean isBucketExist = !s3client.doesBucketExistV2("45kkkkkkkkkddddddddddkdd");
 //        boolean isBucketExist = !s3client.doesBucketExistV2(bucketName);
+
+        System.out.println(0/0);
 
         // process bucket and region
         try {
